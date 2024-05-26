@@ -53,6 +53,7 @@ def ResponseGenerator(returnResponseData: Callable[[], Any]):
         return Response(data,
                         status_code=status.HTTP_200_OK)
     except ServicesError as se:
+        print(f"logger: error details - {se.details}")
         return Response(se.__str__(), status_code=se.status_code)
     except Exception as e:
         return Response(f"Error occurred: {e}",
