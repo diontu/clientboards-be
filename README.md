@@ -14,7 +14,8 @@ For Mac:
 
 ```bash
 # make the migrations
-python3 manage.py makemigrations api
+python3 manage.py makemigrations api # for the rest of the apis
+python3 manage.py makemigrations user # for the user sessions
 # execute the migrations
 python3 manage.py migrate
 ```
