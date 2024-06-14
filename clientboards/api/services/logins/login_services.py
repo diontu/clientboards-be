@@ -24,17 +24,10 @@ class LoginServices():
         loginSerializer = LoginSerializer(
             data={'email': email, 'password': password})
 
-        if not loginSerializer.is_valid():
+        if not loginSerializer.is_valid() and not loginSerializer.save():
             print('logger: login is not valid')
             raise ServicesError(
                 message=f'Login is not valid. errors: {loginSerializer.errors}', status_code=status.HTTP_400_BAD_REQUEST)
-
-        isUserValidated = loginSerializer.save()
-
-        if not isUserValidated:
-            print('logger: login is not valid')
-            raise ServicesError(
-                message="Login is not valid", status_code=status.HTTP_400_BAD_REQUEST)
 
         # create the session
         try:
@@ -44,7 +37,15 @@ class LoginServices():
             raise ServicesError(
                 message="User does not exist", status_code=status.HTTP_400_BAD_REQUEST)
 
-        # TODO: have to check if the user has a session or not, given their email. If so, then return that session.
+        # check if the user has a session or not, given their email. If so, then return that session.
+        sessionsQuerySet = Sessions.objects.filter(
+            user_id__exact=user.id)
+
+        hasExistingSession = sessionsQuerySet.first()
+
+        if hasExistingSession:
+            print('logger: user already has a session')
+            return hasExistingSession
 
         # TODO: differentiate it by ip address in the future.
 
