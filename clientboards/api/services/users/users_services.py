@@ -1,8 +1,10 @@
-import bcrypt
 from rest_framework import status
 
 # models
 from clientboards.api.models.users.models import Users
+
+# security
+from clientboards.api.security.security import hashPassword
 
 # serializers
 from clientboards.api.serializers.users.users_serializer import UsersSerializer
@@ -29,12 +31,8 @@ class UsersServices():
             raise ServicesError(
                 message='User already exists', status_code=status.HTTP_400_BAD_REQUEST)
 
-        # hash password
-        passwordBytes = password.encode('utf-8')
-        hashedPassword = bcrypt.hashpw(passwordBytes, bcrypt.gensalt())
-
-        # convert password back to string
-        hashedPasswordString = hashedPassword.decode('utf8')
+        # hash the password
+        hashedPasswordString = hashPassword(password)
 
         userData = {
             "email": email,
