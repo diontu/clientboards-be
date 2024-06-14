@@ -20,7 +20,7 @@ class UsersServices():
 
     @staticmethod
     def createUser(email: str, password: str, country: str) -> Users:
-        print('logger: attempting to create an user')
+        print('logger: attempting to create a user')
         # create the user
         userQuerySet = Users.objects.filter(
             email__exact=email)
