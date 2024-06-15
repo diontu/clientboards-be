@@ -46,7 +46,7 @@ class Auth(BaseAuthentication):
 
             user, *rest = LoginServices.login(email, password)
         except ServicesError as se:
-            raise AuthenticationError(se.details)
+            raise AuthenticationError(str(se))
         except Exception:
             raise AuthenticationError('Invalid credentials')
 
