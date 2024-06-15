@@ -127,5 +127,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIGRATION_MODULES = {'api': 'clientboards.api.models.migrations'}
 
-# Set the session engine to use the database
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'clientboards.api.security.auth.Auth',
+    ),
+}

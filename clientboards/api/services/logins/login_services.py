@@ -17,17 +17,17 @@ from clientboards.api.services.ServicesError import ServicesError
 
 class LoginServices():
     @staticmethod
-    def login(request, email: str, password: str):
+    def login(email: str, password: str, request=None):
         """
         Creates a session model and return it.
         """
         loginSerializer = LoginSerializer(
             data={'email': email, 'password': password})
 
-        if not loginSerializer.is_valid() and not loginSerializer.save():
+        if not loginSerializer.is_valid() or not loginSerializer.save():
             print('logger: login is not valid')
             raise ServicesError(
-                message=f'Login is not valid. errors: {loginSerializer.errors}', status_code=status.HTTP_400_BAD_REQUEST)
+                message='Login is not valid', details=loginSerializer.errors, status_code=status.HTTP_400_BAD_REQUEST)
 
         # create the session
         try:
@@ -41,11 +41,11 @@ class LoginServices():
         sessionsQuerySet = Sessions.objects.filter(
             user_id__exact=user.id)
 
-        hasExistingSession = sessionsQuerySet.first()
+        existingSession = sessionsQuerySet.first()
 
-        if hasExistingSession:
+        if existingSession:
             print('logger: user already has a session')
-            return hasExistingSession
+            return (user, existingSession)
 
         # TODO: differentiate it by ip address in the future.
 
@@ -66,7 +66,7 @@ class LoginServices():
             raise ServicesError(
                 message="Not a Session", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return savedSession
+        return (user, savedSession)
 
     @staticmethod
     def logout():
