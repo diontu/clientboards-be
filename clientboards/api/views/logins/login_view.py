@@ -1,19 +1,19 @@
+from rest_framework import status
 from rest_framework.views import APIView
 
 # repsonse
 from clientboards.api.response.response import ResponseGenerator
 
-# services
-from clientboards.api.services.logins.login_services import LoginServices
+# errors
+from clientboards.api.services.ServicesError import ServicesError
 
 
 class LoginAPIView(APIView):
     def postResponseData(self, request):
-        loginInfo = LoginServices.login(request=request, email=request.data.get(
-            'email'), password=request.data.get('password'))
-
-        # can't serialize a model so we convert it to a dict
-        return isinstance(loginInfo, tuple) and 'Login successful'
+        if request.user is not None:
+            return 'Login successful'
+        else:
+            return ServicesError(message='Login failed', status_code=status.HTTP_401_UNAUTHORIZED)
 
     def post(self, request, *args, **kwargs):
         return ResponseGenerator(lambda: self.postResponseData(request))

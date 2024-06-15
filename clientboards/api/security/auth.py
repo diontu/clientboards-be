@@ -1,6 +1,5 @@
 import base64
 
-from rest_framework import status
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
 from clientboards.api.security.auth_error import AuthenticationError
@@ -31,7 +30,7 @@ class Auth(BaseAuthentication):
 
             user, *rest = LoginServices.login(email, password)
         except ServicesError as se:
-            raise AuthenticationError(se.details)
+            raise AuthenticationError(str(se))
         except Exception:
             raise AuthenticationError('Invalid credentials')
 

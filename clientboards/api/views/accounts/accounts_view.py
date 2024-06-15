@@ -1,4 +1,6 @@
 from django.forms.models import model_to_dict
+
+# rest
 from rest_framework.views import APIView
 
 # repsonse
@@ -12,7 +14,7 @@ from clientboards.api.services.accounts.accounts_services import AccountsService
 
 
 class AccountsAPIView(APIView):
-    authentication_classes = [Auth]
+    authentication_classes = []
 
     def get(self, request):
         return ResponseGenerator(lambda: AccountsServices.getAccounts())

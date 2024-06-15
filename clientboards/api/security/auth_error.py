@@ -9,7 +9,7 @@ defaultStatus = status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 class AuthenticationError(AuthenticationFailed):
-    status_code = 401
+    status_code = status.HTTP_401_UNAUTHORIZED
     default_detail = 'Invalid authentication credentials provided.'
     default_code = 'authentication_failed'
 
