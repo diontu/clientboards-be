@@ -13,7 +13,8 @@ class LoginAPIView(APIView):
         if request.user is not None:
             return 'Login successful'
         else:
-            return ServicesError(message='Login failed', status_code=status.HTTP_401_UNAUTHORIZED)
+            raise ServicesError(message='Login failed',
+                                status_code=status.HTTP_401_UNAUTHORIZED)
 
     def post(self, request, *args, **kwargs):
         return ResponseGenerator(lambda: self.postResponseData(request))
