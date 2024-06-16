@@ -9,6 +9,10 @@ from clientboards.api.services.ServicesError import ServicesError
 
 
 class LoginAPIView(APIView):
+    """
+    Exceptions can be raised in the view, as long as the function that raises the error is being called inside a `ResponseGenerator`.
+    """
+
     def postResponseData(self, request):
         if request.user is not None:
             return 'Login successful'
