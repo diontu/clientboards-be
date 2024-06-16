@@ -2,10 +2,8 @@ from datetime import datetime, timedelta
 
 from rest_framework import status
 
-from clientboards.api.models.sessions.models import Sessions
-
 # models
-from clientboards.api.models.users.models import Users
+from clientboards.api.models import Sessions, Users
 
 # serializers
 from clientboards.api.serializers.accounts.login_serializer import LoginSerializer

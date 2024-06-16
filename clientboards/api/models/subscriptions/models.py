@@ -1,6 +1,6 @@
 from django.db import models
 
-from clientboards.api.models.accounts.models import Accounts
+from clientboards.api.models import Accounts
 
 
 class SubscriptionStatus(models.TextChoices):

@@ -6,9 +6,6 @@ from rest_framework.views import APIView
 # repsonse
 from clientboards.api.response.response import ResponseGenerator
 
-# auth
-from clientboards.api.security.auth import Auth
-
 # services
 from clientboards.api.services.accounts.accounts_services import AccountsServices
 

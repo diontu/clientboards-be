@@ -1,7 +1,7 @@
 from rest_framework import status
 
 # models
-from clientboards.api.models.users.models import Users
+from clientboards.api.models import Users
 
 # security
 from clientboards.api.security.security import hashPassword

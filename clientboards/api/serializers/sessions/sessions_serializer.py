@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from clientboards.api.models.sessions.models import Sessions
+from clientboards.api.models import Sessions
 
 
 class SessionsSerializer(serializers.ModelSerializer):

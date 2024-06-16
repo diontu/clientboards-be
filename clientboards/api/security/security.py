@@ -1,7 +1,7 @@
 import bcrypt
 
 # models
-from clientboards.api.models.users.models import Users
+from clientboards.api.models import Users
 
 
 def hashPassword(string: str) -> str:

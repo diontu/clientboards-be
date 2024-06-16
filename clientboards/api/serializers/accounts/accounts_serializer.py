@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from clientboards.api.models.accounts.models import Accounts
+from clientboards.api.models import Accounts
 
 
 class AccountsSerializer(serializers.ModelSerializer):

@@ -3,7 +3,7 @@ import json
 from rest_framework import status
 
 # models
-from clientboards.api.models.accounts.models import Accounts
+from clientboards.api.models import Accounts
 
 # serializers
 from clientboards.api.serializers.accounts.accounts_serializer import AccountsSerializer

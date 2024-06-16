@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from clientboards.api.models.subscriptions.models import Subscriptions
+from clientboards.api.models import Subscriptions
 
 
 class SubscriptionsSerializers(serializers.ModelSerializer):

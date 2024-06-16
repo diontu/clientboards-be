@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from clientboards.api.models.blocks.models import Blocks
+from clientboards.api.models import Blocks
 from clientboards.api.serializers.blocks.blocks_serializer import BlocksSerializer
 
 

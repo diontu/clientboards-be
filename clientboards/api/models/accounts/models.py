@@ -1,5 +1,6 @@
 from django.db import models
 
+# call the full path of the model to prevent circular import
 from clientboards.api.models.users.models import Users
 
 

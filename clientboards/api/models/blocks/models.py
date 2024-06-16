@@ -1,6 +1,6 @@
 from django.db import models
 
-from clientboards.api.models.accounts.models import Accounts
+from clientboards.api.models import Accounts
 
 
 class BlockType(models.TextChoices):
@@ -19,7 +19,8 @@ class BlockType(models.TextChoices):
 # Create your models here.
 class Blocks(models.Model):
     id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=30, choices=BlockType)
+    type = models.CharField(max_length=30, choices=[(
+        choice.value, choice.name) for choice in BlockType])
     properties = models.JSONField()
     content = models.TextField()
     parent_id = models.OneToOneField(

@@ -3,6 +3,7 @@ import uuid
 
 from django.db import models
 
+# to prevent ciruclar import
 from clientboards.api.models.users.models import Users
 
 
