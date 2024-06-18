@@ -39,6 +39,10 @@ class LoginServices():
         sessionsQuerySet = Sessions.objects.filter(
             user_id__exact=user.id)
 
+        # save the last login
+        user.last_login = datetime.now()
+        user.save()
+
         existingSession = sessionsQuerySet.first()
 
         if existingSession:
