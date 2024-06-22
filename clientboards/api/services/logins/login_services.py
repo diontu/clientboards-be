@@ -72,4 +72,14 @@ class LoginServices():
 
     @staticmethod
     def logout():
-        pass
+        # TODO: implement
+        """
+        This static method is responsible for handling the logout functionality.
+        Currently, it does not perform any actions and simply passes.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """

@@ -1,0 +1,11 @@
+version: "3"
+services:
+  clientboards:
+    container_name: clientboards-be
+    image: python:3.12-slim
+    working_dir: /usr/src/app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/usr/src/app
+    command: sh -c "./scripts/setup-app.sh"
