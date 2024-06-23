@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -133,5 +134,55 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# Optional settings
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'django_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': './.logs/django.log',
+        },
+        'celery_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': './.logs/celery.log',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'watchdog': {
+            'handlers': ['django_file', 'celery_file', 'console'],
+            'level': 'ERROR',  # Change this to WARNING or ERROR to reduce verbosity
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['django_file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'celery': {
+            'handlers': ['celery_file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+# Ensure the logs directory exists
+LOG_DIR = os.path.join(BASE_DIR, '.logs')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)

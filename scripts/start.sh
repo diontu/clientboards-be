@@ -10,4 +10,4 @@ PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 docker compose -f $PARENT_DIR/docker-compose.yml up -d
 
 # Enter into the container
-docker exec -it clientboards-be /bin/bash
+docker exec -it clientboards-be-container /bin/bash
