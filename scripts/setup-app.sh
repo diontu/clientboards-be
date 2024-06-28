@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install cURL
-apt-get -y update; apt-get -y install curl
+apt-get -y update; apt-get -y install curl; apt-get install -y bash
 
 
 # Install venv
