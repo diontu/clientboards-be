@@ -1,4 +1,7 @@
+# type: ignore
+
 from django.forms.models import model_to_dict
+from django.http import HttpRequest
 
 # rest
 from rest_framework.views import APIView
@@ -11,18 +14,6 @@ from clientboards.api.services.accounts.accounts_services import AccountsService
 
 
 class AccountsAPIView(APIView):
-    authentication_classes = []
-
-    def get(self, request):
-        return ResponseGenerator(lambda: AccountsServices.getAccounts())
-
-    def postResponseData(self, request):
-        createdAccountModel = AccountsServices.createAccount(
-            email=request.data.get('email'),
-            password=request.data.get('password'),
-            country=request.data.get('country')
-        )
-        return model_to_dict(createdAccountModel)
-
-    def post(self, request, *args, **kwargs):
-        return ResponseGenerator(lambda: self.postResponseData(request))
+    def get(self, request: HttpRequest):
+        if request.user is not None:
+            return ResponseGenerator(lambda: model_to_dict(AccountsServices.getAccountByUserId(userId=request.user.id)))

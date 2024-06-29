@@ -46,7 +46,7 @@ def ResponseGenerator(returnResponseData: Callable[[], Any]):
     Returns
     -------
     api.response.response.Response
-        What's returned from this function is the Response class that inherited the DRF Response class.
+        What's returned from this function is the Response class that inherited the DRF Response class. Do NOT return models directly, as they are not serializable.
     """
     try:
         data = returnResponseData()

@@ -24,7 +24,22 @@ class AccountsServices():
         return accountSerializer.data
 
     @staticmethod
+    def getAccountByUserId(userId: int) -> Accounts:
+        print('logger: attempting to get an account by user id')
+        accountQuerySet = Accounts.objects.filter(user_id__exact=userId)
+        account = accountQuerySet.first()
+        if accountQuerySet.count() == 0 or account is None:
+            print('logger: account not found')
+            raise ServicesError(
+                message='Account not found', status_code=status.HTTP_404_NOT_FOUND)
+
+        return account
+
+    @staticmethod
     def createAccount(email: str, password: str, country: str) -> Accounts:
+        """
+        Creates an account model and returns it. Also creates a user model.
+        """
         print('logger: attempting to create an account')
         # create the user
         savedUser = UsersServices.createUser(email, password, country)
