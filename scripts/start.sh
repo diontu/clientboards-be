@@ -11,16 +11,16 @@ DOCKER_EXECUTE_COMMAND="docker exec -it clientboards-be-container /bin/bash"
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     echo "Running on Linux"
-    $($DOCKER_COMPOSE_COMMAND)
-    $($DOCKER_EXECUTE_COMMAND)
+    eval $DOCKER_COMPOSE_COMMAND
+    eval $DOCKER_EXECUTE_COMMAND
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Running on macOS"
-    $($DOCKER_COMPOSE_COMMAND)
-    $($DOCKER_EXECUTE_COMMAND)
+    eval $DOCKER_COMPOSE_COMMAND
+    eval $DOCKER_EXECUTE_COMMAND
 elif [[ "$OSTYPE" == "cygwin" ]]; then
     echo "Running on Cygwin (POSIX compatibility layer on Windows)"
-    $($DOCKER_COMPOSE_COMMAND)
-    $($DOCKER_EXECUTE_COMMAND)
+    eval $DOCKER_COMPOSE_COMMAND
+    eval $DOCKER_EXECUTE_COMMAND
 elif [[ "$OSTYPE" == "msys" ]]; then
     echo "Running on MinGW (Minimalist GNU for Windows)"
     PREFIXED_WINDOWS_DOCKER_COMPOSE_COMMAND="winpty $DOCKER_COMPOSE_COMMAND"

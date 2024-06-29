@@ -1,6 +1,6 @@
 from django.db import models
 
-from clientboards.api.models import Accounts
+from clientboards.api.models.users.models import Users
 
 
 class SubscriptionStatus(models.TextChoices):
@@ -12,8 +12,8 @@ class SubscriptionStatus(models.TextChoices):
 
 class Subscriptions(models.Model):
     id = models.AutoField(primary_key=True)
-    account_id = models.ForeignKey(
-        Accounts, on_delete=models.CASCADE, related_name='subscriptions')
+    user_id = models.ForeignKey(
+        Users, on_delete=models.CASCADE, related_name='subscriptions')
     subscription_plan = models.CharField(max_length=50)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()

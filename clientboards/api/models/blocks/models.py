@@ -1,6 +1,6 @@
 from django.db import models
 
-from clientboards.api.models import Accounts
+from clientboards.api.models.users.models import Users
 
 
 class BlockType(models.TextChoices):
@@ -25,4 +25,4 @@ class Blocks(models.Model):
     content = models.TextField()
     parent_id = models.OneToOneField(
         'self', on_delete=models.CASCADE, null=True, blank=True)
-    account_id = models.ForeignKey(Accounts, on_delete=models.CASCADE)
+    account_id = models.ForeignKey(Users, on_delete=models.CASCADE)
