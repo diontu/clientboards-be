@@ -171,12 +171,12 @@ LOGGING = {
         },
         'django': {
             'handlers': ['django_file', 'console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'celery': {
             'handlers': ['celery_file', 'console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     },
