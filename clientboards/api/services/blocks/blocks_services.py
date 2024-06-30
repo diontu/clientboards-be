@@ -1,11 +1,19 @@
 import json
 from urllib.parse import unquote
 
+from rest_framework import status
+
 # models
-from clientboards.api.models.blocks.models import Blocks
+from clientboards.api.models.blocks.models import Blocks, BlockType
 
 # serializers
 from clientboards.api.serializers.blocks.blocks_serializer import BlocksSerializer
+
+# errors
+from clientboards.api.services.ServicesError import ServicesError
+
+# tasks
+from clientboards.api.tasks.tasks import saveBlock
 
 
 class BlockServices:
@@ -25,3 +33,18 @@ class BlockServices:
         blocksQuerySet = Blocks.objects.filter(user_id=userId, **filters)
         blocksSerializer = BlocksSerializer(blocksQuerySet, many=True)
         return blocksSerializer.data
+
+    @staticmethod
+    def saveBlock(userId: int, type: str, properties: dict, content: str, paretId: int | None = None):
+        if not BlockServices.validateBlockType(type=type):
+            raise ServicesError(message='Invalid block type',
+                                status_code=status.HTTP_400_BAD_REQUEST)
+
+        # saveBlock()
+        return 'added successfully'
+
+    @staticmethod
+    def validateBlockType(type: str) -> bool:
+        if type in [block.value for block in BlockType]:
+            return True
+        return False
