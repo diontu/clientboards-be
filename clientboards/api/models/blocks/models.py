@@ -25,4 +25,4 @@ class Blocks(models.Model):
     content = models.TextField()
     parent_id = models.OneToOneField(
         'self', on_delete=models.CASCADE, null=True, blank=True)
-    account_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
