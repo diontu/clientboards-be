@@ -20,9 +20,10 @@ class BlocksAPIView(APIView):
 
     def post(self, request: HttpRequest):
         filter = {
+            'block_id': request.data.get('block_id'),
             'type': request.data.get('type'),
             'properties': request.data.get('properties'),
             'content': request.data.get('content'),
             'parent_id': request.data.get('parent_id')
         }
-        return ResponseGenerator(lambda: BlockServices.saveBlock(userId=request.user.id, **filter))
+        return ResponseGenerator(lambda: BlockServices.saveBlock(user_id=request.user.id, **filter))

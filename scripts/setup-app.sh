@@ -2,7 +2,7 @@
 
 # Install cURL
 apt-get -y update; apt-get -y install curl; apt-get install -y bash
-
+apt-get -y install sqlite3
 
 # Install venv
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"

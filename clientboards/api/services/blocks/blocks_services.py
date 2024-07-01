@@ -35,14 +35,14 @@ class BlockServices:
         return blocksSerializer.data
 
     @staticmethod
-    def saveBlock(userId: int, type: str, properties: dict | None = None, content: str | None = None, parentId: int | None = None):
+    def saveBlock(user_id: int, type: str, block_id: int, properties: dict | None = None, content: str | None = None, parent_id: int | None = None):
         if not BlockServices.validateBlockType(type=type):
             raise ServicesError(message='Invalid block type',
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-        saveBlockTask(userId=userId, type=type, properties=properties,
-                      content=content, parentId=parentId)
-        return 'added successfully'
+        saveBlockTask.delay(user_id=user_id, type=type, block_id=block_id, properties=properties,
+                            content=content, parent_id=parent_id)
+        return 'Block successfully queued for saving'
 
     @staticmethod
     def validateBlockType(type: str) -> bool:
