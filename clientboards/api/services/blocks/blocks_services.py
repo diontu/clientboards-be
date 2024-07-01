@@ -13,7 +13,7 @@ from clientboards.api.serializers.blocks.blocks_serializer import BlocksSerializ
 from clientboards.api.services.ServicesError import ServicesError
 
 # tasks
-from clientboards.api.tasks.tasks import saveBlock
+from clientboards.api.tasks.tasks import saveBlock as saveBlockTask
 
 
 class BlockServices:
@@ -40,7 +40,7 @@ class BlockServices:
             raise ServicesError(message='Invalid block type',
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-        # saveBlock()
+        saveBlockTask(userId=userId, type=type)
         return 'added successfully'
 
     @staticmethod

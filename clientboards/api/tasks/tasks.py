@@ -13,5 +13,5 @@ def add(one, two):
 
 @shared_task
 def saveBlock(userId: int, type: str, properties: dict | None = None, content: str | None = None, parentId: int | None = None):
-    # TODO: save the block using the id, properties, and content
+    # TODO: maybe could use **kwargs here
     pass
