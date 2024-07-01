@@ -17,3 +17,12 @@ class BlocksAPIView(APIView):
         # get the blocks filter from the URL query params
         blocks_filter = request.GET.get('blocks_filter')
         return ResponseGenerator(lambda: BlockServices.getBlocksByUserId(userId=request.user.id, blocksFilter=blocks_filter))
+
+    def post(self, request: HttpRequest):
+        filter = {
+            'type': request.data.get('type'),
+            'properties': request.data.get('properties'),
+            'content': request.data.get('content'),
+            'parent_id': request.data.get('parent_id')
+        }
+        return ResponseGenerator(lambda: BlockServices.saveBlock(userId=request.user.id, **filter))

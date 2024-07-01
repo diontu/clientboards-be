@@ -21,8 +21,8 @@ class Blocks(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=30, choices=[(
         choice.value, choice.name) for choice in BlockType])
-    properties = models.JSONField()
-    content = models.TextField()
+    properties = models.JSONField(blank=True)
+    content = models.TextField(blank=True)
     parent_id = models.OneToOneField(
         'self', on_delete=models.CASCADE, null=True, blank=True)
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)

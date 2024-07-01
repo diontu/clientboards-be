@@ -14,4 +14,6 @@ def add(one, two):
 @shared_task
 def saveBlock(userId: int, type: str, properties: dict | None = None, content: str | None = None, parentId: int | None = None):
     # TODO: maybe could use **kwargs here
-    pass
+    # check if the block exists, if not create it
+    print('hello from saveBlock')
+    return 1
