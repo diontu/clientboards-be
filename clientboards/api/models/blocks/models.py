@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.db import models
 
 from clientboards.api.models.users.models import Users

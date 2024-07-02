@@ -8,6 +8,9 @@ from clientboards.api.models import Blocks
 
 # serializers
 from clientboards.api.serializers.blocks.blocks_serializer import BlocksSerializer
+from clientboards.api.services.block_permissions.block_permissions_services import (
+    BlockPermissionsServices,
+)
 
 # services
 from clientboards.api.services.ServicesError import ServicesError
@@ -51,7 +54,10 @@ def saveBlock(user_id: int, type: str, block_id: int, properties: Optional[dict]
         block.content = fieldsToSave['content']
         block.parent_id = fieldsToSave['parent_id']  # type: ignore
 
-        block.save()
+        savedBlock = block.save()
+
+        BlockPermissionsServices.setDefaultPermissions(
+            block_id=block_id, user_id=user_id)
     else:
         # create the block
         block = {
@@ -64,6 +70,13 @@ def saveBlock(user_id: int, type: str, block_id: int, properties: Optional[dict]
             raise ServicesError(details=blockSerializer.errors,
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-        blockSerializer.save()
+        savedBlock = blockSerializer.save()
+
+        if not isinstance(savedBlock, Blocks):
+            raise ServicesError(
+                message='Not a block', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        BlockPermissionsServices.setDefaultPermissions(
+            block_id=block_id, user_id=user_id)
 
     print('logger: block saved successfully')
