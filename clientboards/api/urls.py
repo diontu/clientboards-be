@@ -1,5 +1,7 @@
 from django.urls import path
 
+from clientboards.api.views.invite.invite_view import InviteAPIView
+
 from .views.accounts.accounts_view import AccountsAPIView
 from .views.block_permissions.block_permissions_view import BlockPermissionsAPIView
 from .views.blocks.block_view import BlocksAPIView
@@ -25,4 +27,5 @@ urlpatterns = [
     path('blocks/', BlocksAPIView.as_view(), name='blocks'),
     path('block_permissions/', BlockPermissionsAPIView.as_view(),
          name='block_permissions'),
+    path('invite-user/', InviteAPIView.as_view(), name='invite-user'),
 ]
