@@ -23,7 +23,7 @@ class Blocks(models.Model):
         choice.value, choice.name) for choice in BlockType])
     properties = models.JSONField(blank=True)
     content = models.TextField(blank=True)
-    parent_id = models.ForeignKey(
+    parent_block_id = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
 

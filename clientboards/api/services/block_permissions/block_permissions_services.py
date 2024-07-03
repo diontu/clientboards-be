@@ -19,12 +19,12 @@ from clientboards.api.services.ServicesError import ServicesError
 
 class BlockPermissionsServices:
     @staticmethod
-    def setDefaultPermissions(block_id: int, user_id: int):
+    def setDefaultPermissions(block_id: int, user_id: int, owner_id: int):
         BlockPermissionsServices.setPermissions(
-            block_id=block_id, user_id=user_id, permission_type=BlockPermissionsType.WRITE, additional_conditions={})
+            block_id=block_id, user_id=user_id, owner_id=owner_id, permission_type=BlockPermissionsType.WRITE, additional_conditions={})
 
     @staticmethod
-    def setPermissions(block_id: int, user_id: int, permission_type: str, additional_conditions: dict):
+    def setPermissions(block_id: int, user_id: int, owner_id: int, permission_type: str, additional_conditions: dict):
         print('logger: attempting to save block permissions')
         # check if the block exists, if not raise a services error
         blocks = Blocks.objects.filter(id__exact=block_id)
@@ -42,6 +42,7 @@ class BlockPermissionsServices:
             permissionsToSave = {
                 'block_id': block_id,
                 'user_id': user_id,
+                'owner_id': owner_id,
                 'permission_type': permission_type,
                 'additional_conditions': additional_conditions
             }
@@ -70,3 +71,33 @@ class BlockPermissionsServices:
             blockPermission.save()
 
         print('logger: block permissions saved successfully')
+
+    @staticmethod
+    def canUserRead(block_id: int, user_id: int):
+        permissions = BlockPermissions.objects.filter(
+            block_id=block_id, user_id=user_id, permission_type__in=[BlockPermissionsType.READ, BlockPermissionsType.WRITE])
+
+        if permissions.count() == 0:
+            return False
+        else:
+            return True
+
+    @staticmethod
+    def canUserWrite(block_id: int, user_id: int):
+        permissions = BlockPermissions.objects.filter(
+            block_id=block_id, user_id=user_id, permission_type=BlockPermissionsType.WRITE)
+
+        if permissions.count() == 0:
+            return False
+        else:
+            return True
+
+    @staticmethod
+    def isOwner(block_id: int, user_id: int):
+        permissions = BlockPermissions.objects.filter(
+            block_id=block_id, owner_id=user_id)
+
+        if permissions.count() == 0:
+            return False
+        else:
+            return True

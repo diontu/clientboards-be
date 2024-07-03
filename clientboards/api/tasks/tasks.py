@@ -27,7 +27,7 @@ def add(one, two):
 
 
 @shared_task
-def saveBlock(user_id: int, type: str, block_id: int, properties: Optional[dict] = None, content: Optional[str] = None, parent_id: Optional[Blocks] = None):
+def saveBlock(user_id: int, owner_id: int, type: str, block_id: int, properties: Optional[dict] = None, content: Optional[str] = None, parent_block_id: Optional[Blocks] = None):
     # check if the block exists, if not create it
     blockQuerySet = Blocks.objects.filter(
         id__exact=block_id)
@@ -35,7 +35,7 @@ def saveBlock(user_id: int, type: str, block_id: int, properties: Optional[dict]
         'type': type,
         'properties': properties if properties is not None else {},
         'content': content if content is not None else '',
-        'parent_id': parent_id
+        'parent_id': parent_block_id
     }
     if blockQuerySet.count() > 0:
         block = blockQuerySet.first()
@@ -52,12 +52,12 @@ def saveBlock(user_id: int, type: str, block_id: int, properties: Optional[dict]
         block.type = fieldsToSave['type']
         block.properties = fieldsToSave['properties']
         block.content = fieldsToSave['content']
-        block.parent_id = fieldsToSave['parent_id']  # type: ignore
+        block.parent_block_id = fieldsToSave['parent_block_id']  # type: ignore
 
         savedBlock = block.save()
 
         BlockPermissionsServices.setDefaultPermissions(
-            block_id=block_id, user_id=user_id)
+            block_id=block_id, user_id=user_id, owner_id=owner_id)
     else:
         # create the block
         block = {
@@ -77,6 +77,6 @@ def saveBlock(user_id: int, type: str, block_id: int, properties: Optional[dict]
                 message='Not a block', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         BlockPermissionsServices.setDefaultPermissions(
-            block_id=block_id, user_id=user_id)
+            block_id=block_id, user_id=user_id, owner_id=owner_id)
 
     print('logger: block saved successfully')

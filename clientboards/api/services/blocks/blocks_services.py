@@ -3,11 +3,14 @@ from urllib.parse import unquote
 
 from rest_framework import status
 
-# models
+# models and services
 from clientboards.api.models.blocks.models import Blocks, BlockType
 
 # serializers
 from clientboards.api.serializers.blocks.blocks_serializer import BlocksSerializer
+from clientboards.api.services.block_permissions.block_permissions_services import (
+    BlockPermissionsServices,
+)
 
 # errors
 from clientboards.api.services.ServicesError import ServicesError
@@ -30,18 +33,27 @@ class BlockServices:
         if 'type' in blocksFilterDict and blocksFilterDict['type'] is not None:
             filters['type'] = blocksFilterDict['type']
 
+        if not BlockPermissionsServices.canUserRead(user_id=userId, block_id=filters['id']):
+            raise ServicesError(message='You do not have permission to read this block',
+                                status_code=status.HTTP_403_FORBIDDEN)
+
         blocksQuerySet = Blocks.objects.filter(user_id=userId, **filters)
         blocksSerializer = BlocksSerializer(blocksQuerySet, many=True)
         return blocksSerializer.data
 
     @staticmethod
-    def saveBlock(user_id: int, type: str, block_id: int, properties: dict | None = None, content: str | None = None, parent_id: int | None = None):
+    def saveBlock(user_id: int, owner_id: int, type: str, block_id: int, properties: dict | None = None, content: str | None = None, parent_block_id: int | None = None):
         if not BlockServices.validateBlockType(type=type):
             raise ServicesError(message='Invalid block type',
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-        saveBlockTask.delay(user_id=user_id, type=type, block_id=block_id, properties=properties,
-                            content=content, parent_id=parent_id)
+        if not BlockPermissionsServices.canUserWrite(
+                user_id=user_id, block_id=block_id):
+            raise ServicesError(message='You do not have permission to write to this block',
+                                status_code=status.HTTP_403_FORBIDDEN)
+
+        saveBlockTask.delay(user_id=user_id, type=type, owner_id=owner_id, block_id=block_id, properties=properties,
+                            content=content, parent_block_id=parent_block_id)
         return 'Block successfully queued for saving'
 
     @staticmethod

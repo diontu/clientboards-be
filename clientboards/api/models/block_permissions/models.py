@@ -13,8 +13,10 @@ class BlockPermissionsType(models.TextChoices):
 class BlockPermissions(models.Model):
     id = models.AutoField(primary_key=True)
     block_id = models.ForeignKey(Blocks, on_delete=models.CASCADE)
+    owner_id = models.ForeignKey(
+        Users, on_delete=models.CASCADE, related_name='owner')
     user_id = models.ForeignKey(
-        Users, on_delete=models.CASCADE, null=True, blank=True)
+        Users, on_delete=models.CASCADE, null=True, blank=True, related_name='user')
     permission_type = models.CharField(max_length=10, choices=[(
         choice.value, choice.name) for choice in BlockPermissionsType])
     created_at = models.DateTimeField(auto_now_add=True)
