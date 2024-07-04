@@ -10,7 +10,7 @@ from clientboards.api.services.ServicesError import ServicesError
 
 class InviteServices:
     @staticmethod
-    def inviteUser(user_id: int, email: str, block_id: int, permission_type: str, additional_conditions: dict):
+    def inviteUser(user_id: int, email: str, block_id: str, permission_type: str, additional_conditions: dict):
         user = Users.objects.filter(email=email)
         if user.count() == 0:
             raise ServicesError(message='User does not exist')

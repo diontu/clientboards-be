@@ -29,7 +29,7 @@ class BlockServices:
 
         filters = {}
         if 'id' in blocksFilterDict and blocksFilterDict['id'] is not None:
-            filters['id'] = int(blocksFilterDict['id'])
+            filters['id'] = blocksFilterDict['id']
         if 'type' in blocksFilterDict and blocksFilterDict['type'] is not None:
             filters['type'] = blocksFilterDict['type']
 
@@ -42,7 +42,7 @@ class BlockServices:
         return blocksSerializer.data
 
     @staticmethod
-    def saveBlock(user_id: int, owner_id: int, type: str, block_id: int, properties: dict | None = None, content: str | None = None, parent_block_id: int | None = None):
+    def saveBlock(user_id: int, owner_id: int, type: str, block_id: str, properties: dict | None = None, content: str | None = None, parent_block_id: int | None = None):
         if not BlockServices.validateBlockType(type=type):
             raise ServicesError(message='Invalid block type',
                                 status_code=status.HTTP_400_BAD_REQUEST)

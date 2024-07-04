@@ -18,7 +18,7 @@ class BlockType(models.TextChoices):
 
 # Create your models here.
 class Blocks(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.CharField(max_length=75, primary_key=True)
     type = models.CharField(max_length=30, choices=[(
         choice.value, choice.name) for choice in BlockType])
     properties = models.JSONField(blank=True)
