@@ -5,7 +5,6 @@ from clientboards.api.models.users.models import Users
 
 class BlockType(models.TextChoices):
     PAGE = 'page'
-    NOTIONDB = 'notiondb'
     DIVIDER = 'divider'
     TODO = 'todo'
     OLIST = 'olist'
@@ -14,6 +13,8 @@ class BlockType(models.TextChoices):
     HEADER = 'header'
     PARAGRAPH = 'paragraph'
     CALLOUT = 'callout'
+
+    INTEGRATION_NOTIONDB = 'integration_notiondb'
 
 
 # Create your models here.

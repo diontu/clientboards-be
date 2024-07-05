@@ -65,13 +65,11 @@ def saveBlock(user_id: int, owner_id: int, type: str, block_id: str, properties:
             'id': block_id,
             **fieldsToSave,
         }
-        print('block', block)
         blockSerializer = BlocksSerializer(data=block, many=False)
         if not blockSerializer.is_valid():
             raise ServicesError(details=blockSerializer.errors,
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-        print('block_id', block_id)
         savedBlock = blockSerializer.save()
 
         if not isinstance(savedBlock, Blocks):
