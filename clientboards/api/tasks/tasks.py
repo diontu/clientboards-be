@@ -44,7 +44,7 @@ def saveBlock(user_id: int, owner_id: int, type: str, block_id: str, properties:
 
         print('logger: block already exists')
         # make sure the block belongs to the user
-        if block.user_id.id != user_id:
+        if block.owner_id != user_id:
             raise ServicesError(
                 message='Block does not belong to the user',
             )
@@ -61,7 +61,7 @@ def saveBlock(user_id: int, owner_id: int, type: str, block_id: str, properties:
     else:
         # create the block
         block = {
-            'user_id': user_id,
+            'owner_id': user_id,
             'id': block_id,
             **fieldsToSave,
         }

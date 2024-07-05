@@ -25,7 +25,7 @@ class Blocks(models.Model):
     content = models.TextField(blank=True)
     parent_block_id = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    owner_id = models.ForeignKey(Users, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'blocks'

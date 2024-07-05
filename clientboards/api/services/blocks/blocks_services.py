@@ -37,7 +37,7 @@ class BlockServices:
             raise ServicesError(message='You do not have permission to read this block',
                                 status_code=status.HTTP_403_FORBIDDEN)
 
-        blocksQuerySet = Blocks.objects.filter(user_id=userId, **filters)
+        blocksQuerySet = Blocks.objects.filter(owner_id=userId, **filters)
         blocksSerializer = BlocksSerializer(blocksQuerySet, many=True)
         return blocksSerializer.data
 
