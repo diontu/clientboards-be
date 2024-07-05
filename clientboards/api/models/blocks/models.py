@@ -15,6 +15,8 @@ class BlockType(models.TextChoices):
     CALLOUT = 'callout'
 
     INTEGRATION_NOTIONDB = 'integration_notiondb'
+    # for the integration notiondb, client needs to pass the api token and the page id.
+    # we store these values either in a new table that holds credentials from other integrations or in the same table. --> new database
 
 
 # Create your models here.
