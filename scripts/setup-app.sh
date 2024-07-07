@@ -12,11 +12,18 @@ ${SCRIPT_DIR}/setup-venv.sh
 # Install dependencies
 pip3 install --upgrade pip; pip3 install -r requirements.txt
 
-# activate venv
+# Activate venv
 source ${PARENT_DIR}/.venv/bin/activate
 
 # Install dependencies
 pip3 install --upgrade pip; pip3 install -r requirements.txt
+
+# Setup custom commands
+cp ${PARENT_DIR}/scripts/dev/custom-commands.sh /root/.bashrc
+source /root/.bashrc
+
+# Migrate the database
+python3 manage.py makemigrations; python3 manage.py migrate
 
 # Run the celery worker before starting the application and
 celery -A clientboards worker -l info --logfile=./.logs/celery.log & 
