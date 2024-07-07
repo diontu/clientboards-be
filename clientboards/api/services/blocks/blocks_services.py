@@ -5,6 +5,7 @@ from rest_framework import status
 
 # models and services
 from clientboards.api.models.blocks.models import Blocks, BlockType
+from clientboards.api.models.integrations.models import Integrations
 
 # serializers
 from clientboards.api.serializers.blocks.blocks_serializer import BlocksSerializer
@@ -51,6 +52,13 @@ class BlockServices:
                 user_id=user_id, block_id=block_id):
             raise ServicesError(message='You do not have permission to write to this block',
                                 status_code=status.HTTP_403_FORBIDDEN)
+
+        # if the block is an integration block, then make sure the integration exists
+        if type == BlockType.INTEGRATION_NOTIONDB:
+            integrationQuerySet = Integrations.objects.filter(
+                name=type, user_id=owner_id)
+            if integrationQuerySet.count() == 0:
+                raise ServicesError(message='Integration does not exist')
 
         saveBlockTask.delay(user_id=user_id, type=type, owner_id=owner_id, block_id=block_id, properties=properties,
                             content=content, parent_block_id=parent_block_id)

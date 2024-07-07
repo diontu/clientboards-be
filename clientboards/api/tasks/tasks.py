@@ -5,8 +5,6 @@ from rest_framework import status
 
 # models
 from clientboards.api.models import Blocks
-from clientboards.api.models.blocks.models import BlockType
-from clientboards.api.models.integrations.models import Integrations
 
 # serializers
 from clientboards.api.serializers.blocks.blocks_serializer import BlocksSerializer
@@ -33,13 +31,6 @@ def saveBlock(user_id: int, owner_id: int, type: str, block_id: str, properties:
     # check if the block exists, if not create it
     blockQuerySet = Blocks.objects.filter(
         id__exact=block_id)
-
-    # if the block is an integration block, then make sure the integration exists
-    if type == BlockType.INTEGRATION_NOTIONDB:
-        integrationQuerySet = Integrations.objects.filter(
-            name=type, user_id=owner_id)
-        if integrationQuerySet.count() == 0:
-            raise ServicesError(message='Integration does not exist')
 
     fieldsToSave = {
         'type': type,
