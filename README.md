@@ -1,10 +1,24 @@
 ## Run app
 
-To run the app locally, you will need to run the following command.
+To run the app, you must have Docker instead and have the docker daemon running. Run the following command from the terminal in the project's root directory.
 
 ```bash
-python3 manage.py runserver
+./scripts/start.sh
 ```
+
+This will start the required Docker containers and put you inside the docker container.
+
+## To stop the app
+
+Exit the Docker terminal by entering `exit` in the terminal and run the following command.
+
+```bash
+./scripts/stop.sh
+```
+
+## Custom commands
+
+To add custom commands to the Docker container, add the command to the file `./scripts/dev/custom-commands.sh`.
 
 ## Migrations
 
